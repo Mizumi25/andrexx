@@ -1,0 +1,90 @@
+body{
+    background-color: rgb(188, 89, 188);
+    width:100vw;
+    height:100vh;
+    display: grid;
+    place-items: center;
+}
+
+.calc{
+    background-color:rgb(41,41,41);
+    width: 400px;
+    height: 730px;
+    border-radius: 20px;
+    display: grid;
+    place-items: center;
+}
+.maininput{
+    background-color: black;
+    height: 145px;
+    width: 96%;
+    margin-left: 1%;
+    font-size: 80px;
+    color: white;
+    border: none;
+    text-align: right;
+}
+.numbtn{
+    padding: 30px 35px;
+    margin-left: 10px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: large;
+    background-color: rgb(128,128,128);
+    border: none;
+}
+.numbtn:hover{
+    background-color: rgb(136, 133, 133);
+    color: whitesmoke;
+}
+.calbtn{
+    padding: 30px 35px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: large;
+    background-color: 	rgb(255,163,26);
+    border: none;
+    margin-left: 10px;
+}
+.calbtn:hover{
+    background-color: rgb(211, 140, 7);
+    color: whitesmoke;
+}
+.c{
+    padding: 30px 35px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: large;
+    background-color: black;
+    margin-left: 15px;
+    border: none;
+    color:rgb(211, 140, 7);
+}
+.c:hover{
+    background-color: white;
+    color: black;
+}
+.equal{
+    padding: 30px 80px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: large;
+    border: none;
+    margin-left: 10px;
+    background-color: black;
+    color: rgb(211, 140, 7);
+}
+.equal:hover{
+    background-color: rgb(211, 140, 7);
+    color:black;
+}
+#call{
+    padding: 30px 50px ;
+    color: rgb(211, 140, 7);
+    background-color: black;
+    border: none;
+}
+#call:hover{
+    background-color: white;
+    color: black;
+}
