@@ -14,25 +14,30 @@
 
     if(isset($_POST['decimal']))
     {
+        // Check if the input already contains a decimal point
         if(strpos($_POST['input'], '.') === false) {
+            // If not, append a decimal point to the input
             $num .= '.';
         }
     }
 
     if(isset($_POST['op']))
     {
+        // Store current input in cookies
         $cookie_value1 = $_POST['input'];
         setcookie($cookie_name1, $cookie_value1, time()+(86400*30), "/");
 
-
+        // Store the clicked operation in cookies
         $cookie_value2 = $_POST['op'];
         setcookie($cookie_name2, $cookie_value2, time()+(86400*30), "/");
         
+        // Clear input field after operation is performed
         $num = "";
     }
 
     if(isset($_POST['equal']))
     {
+        // Check if input is not empty and cookies are set
         if (!empty($_POST['input']) && isset($_COOKIE['num']) && isset($_COOKIE['op'])) {
             $num = $_POST['input'];
             switch($_COOKIE['op']) {
@@ -46,34 +51,34 @@
                     $result = $_COOKIE['num'] * $num;
                     break;
                 case "/":
+                    // Check if divisor is not zero
                     if ($num != 0) {
                         $result = $_COOKIE['num'] / $num;
                     } else {
-                        $result = "";
+                        $result = "Error: Division by zero";
                     }
-                    break;
-                case "%":
-                    $result = $_COOKIE['num'] * ($num / 100);
                     break;
             }
             $num = $result;
         }
         else {
-            $num = "Invalid";
+            // Handle error if input field is empty
+            $num = "Error: Incomplete expression";
         }
     }
 
     if(isset($_POST['clear'])) {
+        // Clear individual characters from the input
         $num = substr($_POST['input'], 0, -1);
     }
     
     if(isset($_POST['clearall'])) {
+        // Clear all cookies and reset input
         $num = "";
         setcookie($cookie_name1, "", time() - 3600, "/");
         setcookie($cookie_name2, "", time() - 3600, "/");
     }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -82,122 +87,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
-    <style>
-        body{
-            background-color: #dbdbdb;
-            width:100vw;
-            height:100vh;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .calc{
-            position: absolute;
-            background-color: #fefefe;
-            width: 400px;
-            height: 730px;
-            border-radius: 20px;
-            box-shadow: 10px 10px 40px;
-            display: flex;
-        }
-        .maininput{
-            background-color: #fefefe;
-            height: 145px;
-            width: 98.2%;
-            font-size: 80px;
-            color: #fbacb0;
-            border: none;
-            text-align: right;
-        }
-        .numbtn{
-            padding: 25px 30px;
-            border-radius: 50px;
-            font-weight: 500;
-            font-size: large;
-            background-color: #f8f8f8;
-            border: none;
-            box-shadow: #f3d5dd 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
-            margin: 7px 7px;
-            transition: background-color 1s ease;
-        }
-        .numbtn:hover{
-            background-color: rgb(136, 133, 133);
-            color: whitesmoke;
-        }
-        .calbtn{
-            padding: 25px 30px;
-            border-radius: 50px;
-            font-weight: 500;
-            font-size: large;
-            background-color: #f7e1e5;
-            border: none;
-            margin: 7px 7px;
-            transition: background-color 1s ease;
-        }
-        .calbtn:hover{
-            background-color: #ff626c;
-            color: whitesmoke;
-        }
-        .c{
-            padding: 25px 30px;
-            border-radius: 50px;
-            font-weight: 500;
-            font-size: large;
-            background-color: #f7e1e5;
-            border: none;
-            transition: background-color 1s ease;
-        }
-        .c:hover{
-            background-color: rgb(188, 16, 16);
-            color: whitesmoke;
-        }
-        .equal{
-            padding: 30px 80px;
-            border-radius: 50px;
-            font-weight: 500;
-            font-size: large;
-            background-color: #ff626c;
-            border: none;
-            transition: background-color 1s ease;
-        }
-        .equal:hover{
-            background-color: #dbdbdb;
-            color: whitesmoke;
-        }
-
-        .butts {
-            border-radius: 40px;
-            background-color: #f5faf8;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 70%;
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        #colorButton {
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<button id="colorButton" onclick="changeColor()">Change Color</button>
         <div class="calc">
             <form action="" method="post">
                 <br>
                 <input type="text" class="maininput" name="input" value="<?php echo $num ?>"> <br> <br>
 
-                <div class="butts">
                 <input type="submit" class="c" name="clear" value="C">
-                <input type="submit" class="calbtn" name="op" value="%">
-                <input type="submit" class="calbtn" name="op" value="/">
-                <input type="submit" class="c" name="clearall" value="CA"><br><br>
+                
+                <input type="submit" id="call" class="c" name="clearall" value="Clear All">
+                <input type="submit" id="div" class="calbtn" name="op" value="/"><br><br>
                 <input type="submit" class="numbtn" name="num" value="7">
                 <input type="submit" class="numbtn" name="num" value="8">
                 <input type="submit" class="numbtn" name="num" value="9">
@@ -212,35 +113,17 @@
                 <input type="submit" class="calbtn" name="op" value="*"><br><br>
                 <input type="submit" class="numbtn" name="num" value="0">
                 <input type="submit" class="numbtn" name="decimal" value=".">
-                <input type="submit" class="equal" name="equal" value="=">
+                <input type="submit" class="equal" id="eq" name="equal" value="=">
                 
-                </div>
+                
+                
+                
 
 
             </form>
         </div>
 
 
-
-
-
-<script>
-  var isColorChanged = false;
-
-function changeColor() {
-  var button = document.querySelector(".calc");
-
-  if (!isColorChanged) {
-    button.style.backgroundColor = "black";
-    button.textContent = "Return Color";
-    isColorChanged = true;
-  } else {
-    button.style.backgroundColor = "blue";
-    button.textContent = "Change Color";
-    isColorChanged = false;
-  }
-}
-</script>
 
 </body>
 </html>
